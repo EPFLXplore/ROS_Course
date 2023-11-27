@@ -1,18 +1,15 @@
----
-name: CI
-"on":
-  pull_request:
+name: Docker CI
+
+on:
   push:
-    branches:
-      - master
+    branches: ["master"]
 
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: epflxplore/ros-course
 
 jobs:
-  docker:
-    name: Docker
+  build-and-push-image:
     runs-on: ubuntu-latest
 
     strategy:
@@ -23,6 +20,10 @@ jobs:
             context: .
             tag: humble-desktop
             platform: linux/amd64
+
+    permissions:
+      contents: read
+      packages: write
 
     steps:
       - name: Checkout repository

@@ -10,7 +10,7 @@ Runs a Jupyter Notebook with ROS in a Docker container. Probably need --network=
 docker run -it \
     -v "$PWD:/home/xplore/ros-jupyter" \
     -p 8888:8888 \
-    epflxplore/ros-course:latest
+    ghcr.io/epflxplore/ros-course:latest
 ```
 
 ## Building
