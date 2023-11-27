@@ -14,6 +14,16 @@ jobs:
   docker:
     name: Docker
     runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: true
+      matrix:
+        include:
+          - dockerfile: ./Dockerfile
+            context: .
+            tag: humble-desktop
+            platform: linux/amd64
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -31,5 +41,13 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build and push image to DockerHub
-        run: ./build.sh -t $IMAGE_NAME -p -a linux/arm64,linux/amd64
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          file: ${{ matrix.dockerfile }}
+          context: ${{ matrix.context }}
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ matrix.tag }}
+          platforms: ${{ matrix.platform }}
+          no-cache: true
+          pull: true
+          push: true
