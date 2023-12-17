@@ -1,1 +1,0 @@
-docker build --pull --no-cache --progress=plain -t ghcr.io/epflxplore/ros-course:humble-desktop -f Dockerfile ..
